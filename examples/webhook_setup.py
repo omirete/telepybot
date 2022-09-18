@@ -2,7 +2,9 @@ from telepybot import Telepybot
 
 telepybot = Telepybot(token='YOUR_BOT_API_TOKEN')
 
-telepybot.webhook.autosetup(webhook_location='bots/telegram')
+telepybot.webhook.autosetup(
+    webhook_location='endpoint/where/Telegram/should/post/updates/to'
+)
 
 # Get the info of the webhook we've just setup.
 webhook_info = telepybot.webhook.getInfo()
