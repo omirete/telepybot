@@ -2,7 +2,7 @@ import requests, json
 from typing import Union
 from secrets import token_urlsafe
 
-from helpers import get_public_external_ip, BASE64_ALPHABET_URLSAFE
+from .helpers import get_public_external_ip, BASE64_ALPHABET_URLSAFE
 from telepybot.models import WebhookInfo
 from .ssl import Ssl, ServerLocationInfo
 
