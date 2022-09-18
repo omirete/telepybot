@@ -16,7 +16,6 @@ class Ssl():
     def __init__(self, pubkey_name: str = None, privkey_name: str = None) -> None:
         self.PUBLIC_KEY_NAME = 'cert.pem' if pubkey_name == None else pubkey_name
         self.PRIVATE_KEY_NAME = 'priv.key' if privkey_name == None else privkey_name
-        self.pubkey_bytes: bytes = None
 
     def generate_certificate(self, public_ip: str, bot_name: str, location: ServerLocationInfo):
         # Generate our key
@@ -70,3 +69,11 @@ class Ssl():
         # Write our certificate out to disk.
         with open(self.PUBLIC_KEY_NAME, "wb") as f:
             f.write(cert.public_bytes(serialization.Encoding.PEM))
+
+    @property
+    def pubkey_bytes(self) -> bytes:
+        try:
+            with open(self.PUBLIC_KEY_NAME, "rb") as f:
+                return f.read()
+        except FileNotFoundError:
+            raise FileNotFoundError(f'Could not find public certificate file named: {self.PUBLIC_KEY_NAME}.')
