@@ -3,3 +3,4 @@ __pycache__
 telepybot_server.json
 cert.pem
 priv.key
+dist
