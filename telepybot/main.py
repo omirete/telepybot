@@ -38,12 +38,16 @@ class Telepybot():
             escaped_text = escaped_text.replace(char, escaped_char)
         return escaped_text
     
-    def sendMsg(self, user_id: str, text: str, max_retries: int = 1, reply_markup: ReplyKeyboardMarkup = None, parse_mode: Union[ParseModes, None] = None):
+    def sendMsg(self, user_id: str, text: str, reply_to_message_id: int = None, max_retries: int = 1, reply_markup: ReplyKeyboardMarkup = None, parse_mode: Union[ParseModes, None] = None):
         url = f'{self.base_url}/sendMessage'
         payload = {
             "chat_id": user_id,
             "text": text
         }
+
+        if reply_to_message_id != None:
+            payload["reply_to_message_id"] = reply_to_message_id
+
         if parse_mode != None:
             payload["parse_mode"] = parse_mode
 
@@ -60,7 +64,7 @@ class Telepybot():
                 break
         return isOk
 
-    def sendDocument(self, user_id: str, file: bytes, caption: str = "", max_retries: int = 1, parse_mode: Union[ParseModes, None] = None):
+    def sendDocument(self, user_id: str, file: bytes, caption: str = "", reply_to_message_id: int = None, max_retries: int = 1, parse_mode: Union[ParseModes, None] = None):
         
         # multipart/form-data
         url = f'{self.base_url}/sendDocument'
@@ -68,6 +72,10 @@ class Telepybot():
             "chat_id": user_id,
             "caption": caption
         }
+
+        if reply_to_message_id != None:
+            payload["reply_to_message_id"] = reply_to_message_id
+
         if parse_mode != None:
             payload["parse_mode"] = parse_mode
 
@@ -80,12 +88,15 @@ class Telepybot():
                 break
         return isOk
 
-    def sendPhoto(self, user_id: str, pic: Union[bytes, str], caption: str = "", max_retries: int = 1, parse_mode: Union[ParseModes, None] = None):
+    def sendPhoto(self, user_id: str, pic: Union[bytes, str], caption: str = "", reply_to_message_id: int = None, max_retries: int = 1, parse_mode: Union[ParseModes, None] = None):
         url = f'{self.base_url}/sendPhoto'
         payload = {
             "chat_id": user_id,
             "caption": caption
         }
+
+        if reply_to_message_id != None:
+            payload["reply_to_message_id"] = reply_to_message_id
 
         if parse_mode != None:
             payload["parse_mode"] = parse_mode
@@ -108,12 +119,15 @@ class Telepybot():
                 break
         return isOk
     
-    def sendDice(self, user_id: int, emoji: Dices = "🎲", max_retries: int = 1, reply_markup: ReplyKeyboardMarkup = None):
+    def sendDice(self, user_id: int, emoji: Dices = "🎲", reply_to_message_id: int = None, max_retries: int = 1, reply_markup: ReplyKeyboardMarkup = None):
         url = f'{self.base_url}/sendDice'
         payload = {
             "chat_id": user_id,
             "emoji": emoji
         }
+
+        if reply_to_message_id != None:
+            payload["reply_to_message_id"] = reply_to_message_id
 
         if reply_markup != None:
             json_reply_markup = json.dumps(reply_markup.dict(exclude_none=True))
