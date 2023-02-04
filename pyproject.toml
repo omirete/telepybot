@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "telepybot"
-version = "0.1.7"
+version = "0.1.8"
 description = "A Python class to help you interact with Telegram's bot api."
 license = "MIT"
 authors = ["Federico Giancarelli <hello@federicogiancarelli.com>"]
@@ -13,6 +13,7 @@ cryptography = "^37.0.4"
 pydantic = "^1.10.2"
 python-dotenv = "^0.21.1"
 uvicorn = "^0.20.0"
+fastapi = "^0.89.1"
 
 
 [build-system]
