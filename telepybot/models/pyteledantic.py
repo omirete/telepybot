@@ -6,7 +6,7 @@
 
 from datetime import datetime
 from typing import Optional, Union
-from pydantic import BaseModel, Field, validator
+from pydantic import field_validator, BaseModel, Field
 
 
 class Bot(BaseModel):
@@ -71,7 +71,8 @@ class Location(BaseModel):
     heading: Optional[int] = None
     proximity_alert_radius: Optional[int] = None
 
-    @validator('horizontal_accuracy')
+    @field_validator('horizontal_accuracy')
+    @classmethod
     def size_horizontal_accuracy_must_contain_a_range(cls, v):
         if v < 0 or v > 1500:
             raise ValueError('Must contain a range of 0 - 1500')
@@ -308,7 +309,8 @@ class Poll(BaseModel):
     open_period: Optional[int] = None
     close_date: Optional[int] = None
 
-    @validator('question')
+    @field_validator('question')
+    @classmethod
     def question_characters_limit(cls, v):
         if len(v) > 300:
             raise ValueError('question limited 300 characters')
@@ -525,13 +527,13 @@ class InlineKeyboardButton(BaseModel):
     You must use exactly one of the optional fields.
     """
     text: str
-    url: Optional[str]
+    url: Optional[str] = None
     login_url: Optional[LoginUrl] = None
     callback_data: Optional[str] = None
     switch_inline_query: Optional[str] = None
     switch_inline_query_current_chat: Optional[str] = None
     callback_game: Optional[CallbackGame] = None
-    pay: Optional[bool]
+    pay: Optional[bool] = None
 
 
 class ForceReply(BaseModel):
@@ -542,8 +544,8 @@ class ForceReply(BaseModel):
     (act as if the user has selected the bot's message and tapped 'Reply')
     """
     force_reply: bool = True
-    input_field_placeholder: Optional[str]
-    selective: Optional[bool]
+    input_field_placeholder: Optional[str] = None
+    selective: Optional[bool] = None
 
 
 class ReplyKeyboardRemove(BaseModel):
@@ -554,7 +556,7 @@ class ReplyKeyboardRemove(BaseModel):
     the default letter-keyboard.
     """
     remove_keyboard: bool = True
-    selective: Optional[bool]
+    selective: Optional[bool] = None
 
 
 class KeyboardButtonPollType(BaseModel):
@@ -601,10 +603,10 @@ class ReplyKeyboardMarkup(BaseModel):
     This object represents a custom keyboard with reply options
     """
     keyboard: Union[list, list[KeyboardButton]]
-    resize_keyboard: Optional[bool]
-    one_time_keyboard: Optional[bool]
-    input_field_placeholder: Optional[str]
-    selective: Optional[bool]
+    resize_keyboard: Optional[bool] = None
+    one_time_keyboard: Optional[bool] = None
+    input_field_placeholder: Optional[str] = None
+    selective: Optional[bool] = None
 
 
 class MessageToSend(BaseModel):
@@ -704,7 +706,8 @@ class InlineQuery(BaseModel):
     chat_type: Optional[str] = None
     location: Optional[Location] = None
 
-    @validator('query')
+    @field_validator('query')
+    @classmethod
     def query_characters_limit(cls, v):
         if len(v) > 256:
             raise ValueError('query limited 256 characters')
@@ -896,7 +899,7 @@ class ChatMemberUpdated(BaseModel):
         ChatMemberOwner, ChatMemberAdministrator,
         ChatMemberMember, ChatMemberRestricted,
         ChatMemberLeft, ChatMemberBanned]
-    invite_link: Optional[ChatInviteLink]
+    invite_link: Optional[ChatInviteLink] = None
 
 
 class Update(BaseModel):
